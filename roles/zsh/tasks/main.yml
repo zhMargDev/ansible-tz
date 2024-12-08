@@ -1,0 +1,37 @@
+---
+- name: Ensure zsh is installed
+  apt:
+    name: zsh
+    state: present
+  become: yes
+
+- name: Ensure git is installed
+  apt:
+    name: git
+    state: present
+  become: yes
+
+- name: Clone ohmyzsh repository
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: /home/{{ item.name }}/.oh-my-zsh
+    version: master
+  loop: "{{ users }}"
+  when: item.shell == '/bin/zsh'
+
+- name: Set zsh as default shell for users
+  user:
+    name: "{{ item.name }}"
+    shell: /bin/zsh
+  loop: "{{ users }}"
+  when: item.shell == '/bin/zsh'
+
+- name: Copy ohmyzsh template to user home directory
+  template:
+    src: zsh_ohmyzsh.j2
+    dest: /home/{{ item.name }}/.zshrc
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "0644"
+  loop: "{{ users }}"
+  when: item.shell == '/bin/zsh'

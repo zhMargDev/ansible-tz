@@ -1,0 +1,17 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+  become: yes
+
+- name: Install additional utilities
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ additional_utilities }}"
+  become: yes

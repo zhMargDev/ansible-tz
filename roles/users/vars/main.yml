@@ -1,0 +1,13 @@
+---
+custom_groups:
+  - name: developers
+    state: present
+  - name: admins
+    state: present
+
+users:
+  - name: user1
+    shell: /bin/bash
+    state: present
+    password: "1234"
+    groups: [developers, admins]

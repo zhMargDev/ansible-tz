@@ -1,0 +1,26 @@
+---
+- name: Ensure static directory exists
+  file:
+    path: /var/www/static/images
+    state: directory
+    mode: '0755'
+
+- name: Download static files archive
+  get_url:
+    url: "https://drive.google.com/uc?export=download&id=1L9hsq9ZFB5VbXYJ3kEKH47x9nhxxZEnI"
+    dest: /tmp/images.tar.gz
+    mode: '0644'
+
+- name: Extract static files
+  unarchive:
+    src: /tmp/images.tar.gz
+    dest: /var/www/static/images
+    remote_src: yes
+
+- name: Set correct permissions for static directory
+  file:
+    path: /var/www/static/images
+    state: directory
+    mode: '0755'
+    owner: www-data
+    group: www-data

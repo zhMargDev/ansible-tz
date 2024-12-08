@@ -1,0 +1,7 @@
+---
+users:
+  - name: user1
+    shell: /bin/bash
+    state: present
+    password: "1234"
+    groups: [developers, admins]

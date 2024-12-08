@@ -1,0 +1,11 @@
+---
+- name: Static Server
+  hosts: all
+  become: yes
+  roles:
+    - users
+    - zsh
+    - update_packages
+    - ssh
+    - nginx
+    - static
